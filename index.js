@@ -12,6 +12,10 @@ function createWindow () {
 
   win.maximizable && win.maximize()
 
+  if (process.env.NODE_ENV !== 'DEV') {
+    win.removeMenu()
+  }
+
   let url = process.env.NODE_ENV === 'DEV' ? 'http://localhost:8080' : 'https://solaris.games'
   
   win.loadURL(url);
