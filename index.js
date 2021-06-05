@@ -6,8 +6,11 @@ function createWindow () {
     height: 600,
     webPreferences: {
       nodeIntegration: true
-    }
+    },
+    icon: 'logo.png'
   })
+
+  win.maximizable && win.maximize()
 
   let url = process.env.NODE_ENV === 'DEV' ? 'http://localhost:8080' : 'https://solaris.games'
   
