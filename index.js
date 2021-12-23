@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, globalShortcut } = require('electron');
 
 function createWindow () {
   const win = new BrowserWindow({
@@ -8,29 +8,34 @@ function createWindow () {
       nodeIntegration: true
     },
     icon: 'logo.png'
-  })
+  });
 
-  win.maximizable && win.maximize()
+  win.maximizable && win.maximize();
 
   if (process.env.NODE_ENV !== 'DEV') {
-    win.removeMenu()
+    win.removeMenu();
   }
 
-  let url = process.env.NODE_ENV === 'DEV' ? 'http://localhost:8080' : 'https://solaris.games'
+  const reloadWindow = () => win.reload();
+
+  globalShortcut.register('f5', reloadWindow);
+	globalShortcut.register('CommandOrControl+R', reloadWindow);
+
+  let url = process.env.NODE_ENV === 'DEV' ? 'http://localhost:8080' : 'https://solaris.games';
   
   win.loadURL(url);
 }
 
-app.whenReady().then(createWindow)
+app.whenReady().then(createWindow);
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
-    app.quit()
+    app.quit();
   }
-})
+});
 
 app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow()
   }
-})
+});
